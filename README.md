@@ -1,7 +1,8 @@
-#git :
+# git :
 git init => init a git folder
+git clone https://github.com/remigu/docker-airflow-light.git
 
-#docker :
+# docker :
 docker build --rm -t remigo/airflow-light . => build a docker image based on Dockerfile in the current folder
 docker ps => list of working container
 docker images => list of available container on computer
