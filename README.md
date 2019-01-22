@@ -11,3 +11,6 @@ docker-compose -f docker-compose-LocalExecutor.yml up -d => run the compose file
 docker exec -it XXX bash => bash cmd (exit to leave)
 docker system prune => delete unused images
 tutorial => https://github.com/puckel/docker-airflow
+
+
+docker exec -ti b8ded5a19b6f airflow variables -i variables.json
