@@ -10,6 +10,8 @@ LABEL maintainer="remigo"
 # Never prompts the user for choices on installation/configuration of packages
 ENV DEBIAN_FRONTEND noninteractive
 ENV TERM linux
+ENV PYTHONPATH "${PYTHONPATH}:/usr/local/airflow"
+ENV AIRFLOW_HOME=/usr/local/airflow
 
 # Airflow
 ARG AIRFLOW_VERSION=1.10.1
@@ -37,6 +39,7 @@ RUN apt-get update -yqq \
         netcat \
         locales \
         supervisor \
+        default-libmysqlclient-dev \
     && sed -i 's/^# fr_FR.UTF-8 UTF-8$/fr_FR.UTF-8 UTF-8/g' /etc/locale.gen \
     && locale-gen \
     && update-locale LANG=fr_FR.UTF-8 LC_ALL=fr_FR.UTF-8 \
@@ -46,7 +49,7 @@ RUN apt-get update -yqq \
     && pip install pyOpenSSL \
     && pip install ndg-httpsclient \
     && pip install pyasn1 \
-    && pip install apache-airflow[crypto,postgres,hive,jdbc,s3,slack,ssh${AIRFLOW_DEPS:+,}${AIRFLOW_DEPS}]==${AIRFLOW_VERSION} \
+    && pip install apache-airflow[mysql,crypto,postgres,hive,jdbc,s3,slack,ssh${AIRFLOW_DEPS:+,}${AIRFLOW_DEPS}]==${AIRFLOW_VERSION} \
     && if [ -n "${PYTHON_DEPS}" ]; then pip install ${PYTHON_DEPS}; fi \
     && apt-get purge --auto-remove -yqq $buildDeps \
     && apt-get autoremove -yqq --purge \
@@ -61,11 +64,12 @@ RUN apt-get update -yqq \
 
 COPY script/entrypoint.sh /entrypoint.sh
 COPY config/supervisord.conf /etc/supervisord.conf
+COPY config/requirements.txt ${AIRFLOW_HOME}/config/requirements.txt
 COPY config/airflow.cfg ${AIRFLOW_HOME}/airflow.cfg
 
 RUN chown -R airflow: ${AIRFLOW_HOME}
 
-EXPOSE 8080 5555 8793
+EXPOSE 8080
 
 USER airflow
 WORKDIR ${AIRFLOW_HOME}
