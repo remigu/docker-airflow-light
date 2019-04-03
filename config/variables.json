@@ -1,0 +1,55 @@
+{
+    "DAG_LOAD_MYSQL_TABLES_TO_SF": {
+        "exports": [
+            {
+                "dest_conn_id": "snowflake_default",
+                "dest_schema": "backend",
+                "dest_table": "product",
+                "source_conn_id": "mysql_default",
+                "source_schema": "backend",
+                "source_table": "product"
+            },
+            {
+                "dest_conn_id": "snowflake_default",
+                "dest_schema": "backend",
+                "dest_table": "product_rate_plan",
+                "source_conn_id": "mysql_default",
+                "source_schema": "backend",
+                "source_table": "product_rate_plan"
+            }
+        ]
+    },
+    "DAG_LOAD_MYSQL_TO_SF": {
+        "exports": [
+            {
+                "dest_conn_id": "snowflake_default",
+                "dest_table": "PROD.BACKEND.EPG",
+                "file_name": "epg.sql",
+                "source_conn_id": "mysql_default"
+            }
+        ]
+    },
+    "DAG_PROCESS_DAILY_DATA": {
+        "exports": [
+            {
+                "column_shift": "STEP_DATE",
+                "file_name": "audience.sql",
+                "source_conn_id": "snowflake_default",
+                "table_name": "PROD.PROCESS.AUDIENCE_ONE_MIN",
+                "time_shift": 1
+            }
+        ]
+    },
+    "amplitude_api_chart": "https://amplitude.com/api/3/chart",
+    "amplitude_api_identify": "https://api.amplitude.com/identify",
+    "amplitude_api_key": "a12ef8a2deff222933ecc4b032fb540a",
+    "amplitude_api_url": "https://amplitude.com/api/2/export",
+    "amplitude_prod_project_id": 136830,
+    "amplitude_secret_key": "fb5ad79841872d6b8f831d9c0339b6a5",
+    "path_configuration": "configuration/",
+    "path_download": "downloads/",
+    "path_events_schema": "events_schema/",
+    "path_project": "/Users/rgonnu/Documents/code/git/python-data-airflow/",
+    "path_sql": "sql/",
+    "snowflake_snowpipe_amplitude_stage": "AMPLITUDE_STAGE"
+}
