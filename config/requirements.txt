@@ -1,4 +1,4 @@
 scikit-learn==0.20.3
-snowflake-connector-python==1.7.4
+snowflake-connector-python==3.0.2
 matplotlib==3.0.3
 requests-futures==0.9.9
